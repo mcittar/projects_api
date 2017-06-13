@@ -14,16 +14,18 @@
 #
 
 class Project < ApplicationRecord
-  validates :project_name, :creation_date, :expiry_date, :enabled,
+  validates :id, :project_name, :creation_date, :expiry_date, :enabled,
             :project_cost, :project_url, presence: true
 
-  validates :project_name, uniqueness: true
+  validates :id, :project_name, uniqueness: true
 
   validates :creation_date, date: true
 
   validates :expiry_date, date: { after: :creation_date }
 
   validates :project_cost, numericality: true
+
+  validates :id, numericality: { only_integer: true }
 
   validates :enabled, inclusion: {
     in: [ true, false ],
