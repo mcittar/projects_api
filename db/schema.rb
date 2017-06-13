@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20170613154809) do
   enable_extension "plpgsql"
 
   create_table "countries", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_countries_on_name", unique: true, using: :btree
@@ -31,12 +31,12 @@ ActiveRecord::Schema.define(version: 20170613154809) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "project_name"
-    t.datetime "creation_date"
-    t.datetime "expiry_date"
-    t.boolean  "enabled"
-    t.float    "project_cost"
-    t.string   "project_url"
+    t.string   "project_name",  null: false
+    t.datetime "creation_date", null: false
+    t.datetime "expiry_date",   null: false
+    t.boolean  "enabled",       null: false
+    t.float    "project_cost",  null: false
+    t.string   "project_url",   null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["project_cost"], name: "index_projects_on_project_cost", using: :btree
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20170613154809) do
   end
 
   create_table "target_countries", force: :cascade do |t|
-    t.integer  "project_id"
-    t.integer  "country_id"
+    t.integer  "project_id", null: false
+    t.integer  "country_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id", "country_id"], name: "index_target_countries_on_project_id_and_country_id", unique: true, using: :btree
