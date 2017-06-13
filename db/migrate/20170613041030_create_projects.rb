@@ -9,8 +9,9 @@ class CreateProjects < ActiveRecord::Migration[5.0]
       t.string project_url, null: false
       t.timestamps
     end
-
   end
+
   add_index :projects, :project_cost
   add_index :projects, :project_name, unique: true
+  
 end
