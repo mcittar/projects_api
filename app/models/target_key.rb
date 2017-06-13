@@ -1,0 +1,2 @@
+class TargetKey < ApplicationRecord
+end
