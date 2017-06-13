@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613152635) do
+ActiveRecord::Schema.define(version: 20170613154509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20170613152635) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_countries_on_name", unique: true, using: :btree
+  end
+
+  create_table "keys", force: :cascade do |t|
+    t.string   "keyword",    null: false
+    t.integer  "number",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["keyword", "number"], name: "index_keys_on_keyword_and_number", unique: true, using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
