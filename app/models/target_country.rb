@@ -10,4 +10,9 @@
 #
 
 class TargetCountry < ApplicationRecord
+  validates :project_id, :country_id, presence: true
+  validates_uniqueness_of :project_id, scope: :country_id
+
+  belongs_to :project
+  belongs_to :country
 end

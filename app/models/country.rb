@@ -9,5 +9,10 @@
 #
 
 class Country < ApplicationRecord
+  validates :name, presence: true
 
+  has_many :target_countries
+  has_many :projects,
+           through: :target_countries,
+           source: :project
 end

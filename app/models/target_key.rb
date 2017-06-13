@@ -10,4 +10,9 @@
 #
 
 class TargetKey < ApplicationRecord
+  validates :project_id, :key_id, presence: true
+  validates_uniqueness_of :project_id, scope: :key_id
+
+  belongs_to :project
+  belongs_to :key
 end
