@@ -41,4 +41,5 @@ class Project < ApplicationRecord
   has_many :keys,
            through: :target_keys,
            source: :key
+
 end
