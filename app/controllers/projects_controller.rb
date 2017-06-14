@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
     parse_and_add_date_text
     check_target_data
     if @project.save
-
+      render :create
     else
       @project.errors.full_messages
     end
