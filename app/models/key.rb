@@ -11,7 +11,6 @@
 
 class Key < ApplicationRecord
   validates :number, :keyword, presence: true, uniqueness: true
-
   has_many :target_keys
   has_many :projects,
            through: :target_keys,
