@@ -72,8 +72,8 @@ class ProjectsController < ApplicationController
     end
 
     @params[:target_keys].each do |key|
-      test_key = Key.new(number: key[:number], keyword: key[:keyword])
-      if duplicate_key?(test_key) || test_key.save
+      test_key = Key.create(number: key[:number], keyword: key[:keyword])
+      if duplicate_key?(test_key)
         test_key = Key.where(number: test_key[:number], keyword: test_key[:keyword])
         @project.keys << test_key
       else
