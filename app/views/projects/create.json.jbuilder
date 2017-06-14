@@ -8,4 +8,4 @@ json.targetCountries @project.countries do |country|
 end
 json.projectCost @project.project_cost
 json.projectUrl @project.project_url
-json.targetKeys @project.keys, :numbers, :keyboards
+json.targetKeys @project.keys, :number, :keyword

@@ -6,10 +6,7 @@ class ProjectsController < ApplicationController
     if @project
       render :show
     else
-      render json: {
-        status: 200,
-        message: "no project found"
-      }.to_json
+      render json: { message: "no project found" }, status: 200
     end
 
   end
@@ -25,10 +22,11 @@ class ProjectsController < ApplicationController
 
     parse_and_add_date_text
     check_target_data
+
     if @project.save
-      render :create
+      render json: "campaign is successfully created", status: 200
     else
-      @project.errors.full_messages
+      render json: @project.errors.full_messages, status: 422
     end
 
   end
@@ -36,10 +34,9 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    param.require(:project)
-      .permit(:id, :projectName, :creationDate, :expiryDate,
-              :enabled, :projectCost, :projectUrl,
-              targetCountries: [], targetKeys: [:number, :keyword])
+    params.permit(:id, :projectName, :creationDate, :expiryDate,
+                  :enabled, :projectCost, :projectUrl,
+                  targetCountries: [], targetKeys: [:number, :keyword])
   end
 
   # It is Ruby convention to name things in snake_case, this function maps
