@@ -1,11 +1,7 @@
 class ProjectsController < ApplicationController
 
-  def index
-    render :index
-  end
-
   def show
-    p project_params
+    p Project.search(params)
   end
 
   def create
@@ -22,7 +18,7 @@ class ProjectsController < ApplicationController
     if @project.save
 
     else
-      p @project.errors.full_messages
+      @project.errors.full_messages
     end
 
   end
@@ -30,9 +26,10 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    params.permit(:id, :projectName, :creationDate, :expiryDate,
-                  :enabled, :projectCost, :projectUrl,
-                  targetCountries: [], targetKeys: [:number, :keyword])
+    param.require(:project)
+      .permit(:id, :projectName, :creationDate, :expiryDate,
+              :enabled, :projectCost, :projectUrl,
+              targetCountries: [], targetKeys: [:number, :keyword])
   end
 
   # It is Ruby convention to name things in snake_case, this function maps
@@ -73,8 +70,12 @@ class ProjectsController < ApplicationController
 
     @params[:target_keys].each do |key|
       test_key = Key.create(number: key[:number], keyword: key[:keyword])
+
       if duplicate_key?(test_key)
-        test_key = Key.where(number: test_key[:number], keyword: test_key[:keyword])
+        test_key = Key.where(
+          number: test_key[:number],
+          keyword: test_key[:keyword]
+        )
         @project.keys << test_key
       else
         test_key.errors.full_messages.each do |error|
@@ -86,8 +87,13 @@ class ProjectsController < ApplicationController
   end
 
   def duplicate_key?(test_key)
-    db_key = Key.where(number: test_key[:number], keyword: test_key[:keyword]).first
-    db_key[:number] == test_key[:number] && db_key[:keyword] == test_key[:keyword]
+    db_key = Key.where(
+      number: test_key[:number],
+      keyword: test_key[:keyword]
+    ).first
+
+    db_key[:number] == test_key[:number] &&
+    db_key[:keyword] == test_key[:keyword]
   end
 
 end
