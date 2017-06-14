@@ -42,11 +42,12 @@ class Project < ApplicationRecord
            through: :target_keys,
            source: :key
 
+  # Per instructions, always returns project with matching id even other
+  # params do not match. Search conditionally adds addition SQL queries
+  # if the params exist within the request
   def self.search(params)
     eligible = self.joins(:countries, :keys).distinct
       .where("expiry_date < ? AND enabled = true", DateTime.now)
-    # Per instructions, always returns project with matching id even other
-    # params do not match
     if params[:projectid]
       return eligible.where(id: params[:projectid])
     else
@@ -57,7 +58,7 @@ class Project < ApplicationRecord
         eligible = eligible.where("keys.number = ?", params[:number].to_i)
       end
       if params[:keyword]
-        eligible = eligible.where("keys.keyword = ?", params[:keyword])
+        eligible = eligible.where("keys.keyword = ?", params[:keyword].downcase)
       end
     end
 

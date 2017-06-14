@@ -1,7 +1,17 @@
 class ProjectsController < ApplicationController
 
   def show
-    p Project.search(params)
+    @project = Project.search(params).first
+
+    if @project
+      render :show
+    else
+      render json: {
+        status: 200,
+        message: "no project found"
+      }.to_json
+    end
+
   end
 
   def create
@@ -62,7 +72,7 @@ class ProjectsController < ApplicationController
   end
 
   def check_target_data
-    @params[:target_countries].each { |country| Country.create(name: country) }
+    @params[:target_countries].each { |country| Country.create(name: country.upcase) }
     countries = Country.where(name: @params[:target_countries])
     countries.each do |country|
       @project.countries << country
