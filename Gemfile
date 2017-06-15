@@ -43,10 +43,11 @@ group :development, :test do
 end
 
 group :test do
-  gem 'faker'
   gem 'capybara'
+  gem 'faker'
   gem 'guard-rspec'
   gem 'launchy'
+  gem "shoulda-matchers"
 end
 
 group :development do

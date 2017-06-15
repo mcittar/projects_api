@@ -46,11 +46,12 @@ class Project < ApplicationRecord
   # params do not match. Search conditionally adds addition SQL queries
   # if the params exist within the request
   def self.search(params)
-    eligible = self.joins(:countries, :keys).distinct
-      .where("expiry_date < ? AND enabled = true", DateTime.now)
+    
     if params[:projectid]
-      return eligible.where(id: params[:projectid])
+      return self.where(id: params[:projectid])
     else
+      eligible = self.joins(:countries, :keys).distinct
+        .where("expiry_date < ? AND enabled = true", DateTime.now)
       if params[:country]
         eligible = eligible.where("countries.name = ?", params[:country].upcase)
       end
