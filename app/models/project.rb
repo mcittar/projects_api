@@ -28,7 +28,7 @@ class Project < ApplicationRecord
   validates :id, numericality: { only_integer: true }
 
   validates :enabled, inclusion: {
-    in: [ true, false ],
+    in: [true, false],
     message: "Value must be a boolean"
   }
 

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Country, type: :model do
-  let(:incomplete_country) { Country.new }
 
   describe "validations" do
     it { should validate_presence_of(:name) }

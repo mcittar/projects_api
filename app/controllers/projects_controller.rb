@@ -20,8 +20,8 @@ class ProjectsController < ApplicationController
       :target_keys
     ))
 
-    parse_and_add_date_text
-    check_target_data
+    parse_and_add_date_text if @params[:creation_date] && @params[:expiry_date]
+    check_target_data if @params[:target_countries] && @params[:target_keys]
 
     if @project.save
       render json: "campaign is successfully created", status: 200
@@ -42,8 +42,10 @@ class ProjectsController < ApplicationController
   # It is Ruby convention to name things in snake_case, this function maps
   # the cameCase input into snake_case to comply with that convention.
   def parsed_params
-    keys = project_params[:targetKeys].map do |key|
-      { number: key[:number], keyword: key[:keyword] }
+    if project_params[:targetKeys]
+      keys = project_params[:targetKeys].map do |key|
+        { number: key[:number], keyword: key[:keyword] }
+      end
     end
 
     {
@@ -60,12 +62,12 @@ class ProjectsController < ApplicationController
   end
 
   def parse_and_add_date_text
-    @project.creation_date = Date.strptime(
-      @params[:creation_date], "%m%d%Y %H:%M:%S"
-    )
-    @project.expiry_date = Date.strptime(
-      @params[:expiry_date], "%m%d%Y %H:%M:%S"
-    )
+      @project.creation_date = Date.strptime(
+        @params[:creation_date], "%m%d%Y %H:%M:%S"
+      )
+      @project.expiry_date = Date.strptime(
+        @params[:expiry_date], "%m%d%Y %H:%M:%S"
+      )
   end
 
   def check_target_data
