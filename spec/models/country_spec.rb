@@ -6,10 +6,6 @@ RSpec.describe Country, type: :model do
   describe "validations" do
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name) }
-
-    it "validates presence of name" do
-      expect(incomplete_country).not_to be_valid
-    end
   end
 
   describe "associations" do
