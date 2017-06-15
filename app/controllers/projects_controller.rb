@@ -14,12 +14,14 @@ class ProjectsController < ApplicationController
   def create
     @params = parsed_params
     @project = Project.new(@params.except(
+      :enabled,
       :expiry_date,
       :creation_date,
       :target_countries,
       :target_keys
     ))
 
+    @project.enabled = parse_enabled_bool if @params[:enabled]
     parse_and_add_date_text if @params[:creation_date] && @params[:expiry_date]
     check_target_data
 
@@ -59,6 +61,16 @@ class ProjectsController < ApplicationController
       project_url: project_params[:projectUrl],
       target_keys: keys
     }
+  end
+
+  # Taken from https://gist.github.com/equivalent/3825916 as I needed a
+  # hardened way to convert any string into a boolean
+  def parse_enabled_bool
+    bool_string = @params[:enabled]
+    return true   if bool_string == true || bool_string =~ /(true|t|yes|y|1|True)$/i
+    return false  if bool_string == false ||
+                     bool_string.blank? ||
+                     bool_string =~ /(false|f|no|n|0|False)$/i
   end
 
   def parse_and_add_date_text
