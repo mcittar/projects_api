@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
     ))
 
     parse_and_add_date_text if @params[:creation_date] && @params[:expiry_date]
-    check_target_data if @params[:target_countries] && @params[:target_keys]
+    check_target_data
 
     if @project.save
       render json: "campaign is successfully created", status: 200
@@ -71,12 +71,19 @@ class ProjectsController < ApplicationController
   end
 
   def check_target_data
+    create_and_add_countries if @params[:target_countries]
+    create_and_add_keys if @params[:target_keys]
+  end
+
+  def create_and_add_countries
     @params[:target_countries].each { |country| Country.create(name: country.upcase) }
     countries = Country.where(name: @params[:target_countries])
     countries.each do |country|
       @project.countries << country
     end
+  end
 
+  def create_and_add_keys
     @params[:target_keys].each do |key|
       test_key = Key.create(number: key[:number], keyword: key[:keyword])
 
@@ -92,7 +99,6 @@ class ProjectsController < ApplicationController
         end
       end
     end
-
   end
 
   def duplicate_key?(test_key)
