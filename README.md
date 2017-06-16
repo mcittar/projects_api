@@ -49,8 +49,10 @@ I have one `ProjectsController` that handles both the GET and POST request.
 My router routes these requests to the `/requestproject` and `/createproject` api endpoints, respectively.
 
 ## Parsing Incoming Project Data
-One of the most interesting parts of this project is how it handles and parses incoming project data. I assumed all incoming data would conform to the example given in the challenge guidelines. In order for the incoming data to pass the validations I created, I needed to tweak it a little bit.
+One of the most interesting parts of this project is how it handles and parses incoming project data. I assumed all incoming data would conform to the example given in the challenge guidelines. In order for the incoming data to pass my validations, I need to tweak it a little bit.
 
-For example, I created a boolean validation for the enabled key as a project should only ever be enabled or not enabled. However, that key is passed in as a string. I found some logic that will parse any string into a true or false boolean accepting a wide range of truthy or falsey values.
+For example, I create a boolean validation for the enabled key as a project should only ever be enabled or not enabled. However, that key is passed in as a string. I found some logic that will parse any string into a true or false boolean accepting a wide range of truthy or falsey values.
 
-I also had to convert the date string into a Ruby formatted date. To do this, I used Ruby's Date#strptime method which uses a regex to convert
+I also have to convert the incoming creationdDate and expiryDate string into a Ruby formatted date to comply with my model and database level date validation. To do this, I use Ruby's Date#strptime method which uses a regex to convert an incorrectly formatted date string into a format accepted by Ruby's Date object.
+
+Finally I have to correctly set up the many-to-many relationships between projects and their countries and keys. For countries, I simply iterate through an incoming project's countries and attempt to save them to the database. Duplicate countries won't save thanks to my validations. After I save them, I add the country to my project's association and the join table relationship will get created and tested when the project saves. The keys work the same way except I added additional logic to check to make sure invalid key pairs wouldn't allow a project to be save. For instance, if the database already has the key { 24 "hats" } and I try to save the key { 24 "shoes" }, The project will get a validation error and not save correctly

@@ -22,10 +22,12 @@ class ProjectsController < ApplicationController
     ))
 
     @project.enabled = parse_enabled_bool if @params[:enabled]
+
     parse_and_add_date_text if @params[:creation_date] && @params[:expiry_date]
+
     check_target_data
 
-    if @project.save
+    if !@project.errors.full_messages && @project.save
       render json: { message: "campaign is successfully created" }, status: 200
     else
       render json: @project.errors.full_messages, status: 422
@@ -119,6 +121,7 @@ class ProjectsController < ApplicationController
       keyword: test_key[:keyword]
     ).first
 
+    db_key &&
     db_key[:number] == test_key[:number] &&
     db_key[:keyword] == test_key[:keyword]
   end
