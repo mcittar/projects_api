@@ -17,14 +17,14 @@ RSpec.describe ProjectsController, type: :controller do
     context "with valid params" do
       before(:each) do
         post :create, params: {
-            id: 1,
-            projectName: "test project number 1",
+            id: 100,
+            projectName: "test project number 100",
             creationDate: "05112017 00:00:00",
             expiryDate: "05202017 00:00:00",
             enabled: "True",
             targetCountries: ["USA", "CANADA", "MEXICO", "BRAZIL"],
             projectCost: 5.5,
-            projectUrl: "http://www.unity3d.com",
+            projectUrl: "http://www.somesite.com",
             targetKeys: [{
                     number: 25,
                     keyword: "movie"

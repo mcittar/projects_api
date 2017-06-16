@@ -65,7 +65,7 @@ My searching logic can be found on the Project model at `app/models/project.rb`.
 
 The logic of my search is fairly straightforward. I begin by checking if projectid is included in the incoming params. If it is, I override all search requirements and simply return that project if it exists.
 
-After that check, I create a joins table of all my data filtering out expired and disabled projects.
+After that check, I create a joins table of all my data filtering out expired and disabled projects. Now I build a SQL query using ActiveRecord .where statements conditionally filtering out the eligible data for each param if they are included in the request. The final step is to find the highest costing remaining project and return that.
 
 ## Potential Improvements
 
