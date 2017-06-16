@@ -26,6 +26,10 @@ germany = Country.create(
   id: 5,
   name: "GERMANY"
 )
+norway = Country.create(
+  id: 6,
+  name: "NORWAY"
+)
 
 k25 = Key.create(
   id: 25,
@@ -67,16 +71,15 @@ p2 = Project.create(
   creation_date: DateTime.now,
   expiry_date: DateTime.now + 1,
   enabled: "True",
-  project_cost: 38.4,
-  project_url: "http://www.someotherurl.com",
+  project_cost: 45.6,
+  project_url: "http://www.highestvalidprojectcost.com",
 )
 
 # PROJECT 2 JOINS
-tcp21 = TargetCountry.create(project_id: p2.id, country_id: brazil.id)
 tcp22 = TargetCountry.create(project_id: p2.id, country_id: usa.id)
 tcp23 = TargetCountry.create(project_id: p2.id, country_id: germany.id)
 tkp21 = TargetKey.create(project_id: p2.id, key_id: k25.id)
-tkp22 = TargetKey.create(project_id: p2.id, key_id: k17.id)
+tkp22 = TargetKey.create(project_id: p2.id, key_id: k30.id)
 
 p3 = Project.create(
   id: 3,
@@ -84,11 +87,73 @@ p3 = Project.create(
   creation_date: DateTime.now,
   expiry_date: DateTime.now + 1,
   enabled: false,
-  project_cost: 3.3,
-  project_url: "http://www.fakewebsite.com",
+  project_cost: 400,
+  project_url: "http://www.disabledproject.com",
 )
 
 # PROJECT 3 JOINS
-tcp21 = TargetCountry.create(project_id: p2.id, country_id: mexico.id)
-tcp22 = TargetCountry.create(project_id: p2.id, country_id: usa.id)
-tkp22 = TargetKey.create(project_id: p2.id, key_id: k17.id)
+tcp31 = TargetCountry.create(project_id: p3.id, country_id: mexico.id)
+tcp32 = TargetCountry.create(project_id: p3.id, country_id: usa.id)
+tcp33 = TargetCountry.create(project_id: p3.id, country_id: norway.id)
+tcp34 = TargetCountry.create(project_id: p3.id, country_id: germany.id)
+tcp35 = TargetCountry.create(project_id: p3.id, country_id: canada.id)
+tkp31 = TargetKey.create(project_id: p3.id, key_id: k17.id)
+
+p4 = Project.create(
+  id: 4,
+  project_name: "test project number 4",
+  creation_date: DateTime.now - 10,
+  expiry_date: DateTime.now - 3,
+  enabled: false,
+  project_cost: 200,
+  project_url: "http://www.expiredproject.com",
+)
+
+# PROJECT 4 JOINS
+tcp41 = TargetCountry.create(project_id: p4.id, country_id: mexico.id)
+tcp42 = TargetCountry.create(project_id: p4.id, country_id: usa.id)
+tkp42 = TargetKey.create(project_id: p4.id, key_id: k17.id)
+
+p5 = Project.create(
+  id: 5,
+  project_name: "test project number 5",
+  creation_date: DateTime.now,
+  expiry_date: DateTime.now + 3,
+  enabled: true,
+  project_cost: 16.5,
+  project_url: "http://www.brazil16.com",
+)
+
+# PROJECT 5 JOINS
+tcp51 = TargetCountry.create(project_id: p5.id, country_id: brazil.id)
+tcp52 = TargetCountry.create(project_id: p5.id, country_id: usa.id)
+tkp52 = TargetKey.create(project_id: p5.id, key_id: k17.id)
+
+p6 = Project.create(
+  id: 6,
+  project_name: "test project number 6",
+  creation_date: DateTime.now,
+  expiry_date: DateTime.now + 3,
+  enabled: true,
+  project_cost: 18.7,
+  project_url: "http://www.highestbrazil.com",
+)
+
+# PROJECT 6 JOINS
+tcp61 = TargetCountry.create(project_id: p6.id, country_id: brazil.id)
+tcp62 = TargetCountry.create(project_id: p6.id, country_id: usa.id)
+tkp62 = TargetKey.create(project_id: p6.id, key_id: k17.id)
+
+p7 = Project.create(
+  id: 7,
+  project_name: "test project number 7",
+  creation_date: DateTime.now,
+  expiry_date: DateTime.now + 3,
+  enabled: true,
+  project_cost: 34.5,
+  project_url: "http://www.highestscience17.com",
+)
+
+# PROJECT 7 JOINS
+tcp71 = TargetCountry.create(project_id: p7.id, country_id: norway.id)
+tkp72 = TargetKey.create(project_id: p7.id, key_id: k17.id)

@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
     check_target_data
 
     if @project.save
-      render json: "campaign is successfully created", status: 200
+      render json: { message: "campaign is successfully created" }, status: 200
     else
       render json: @project.errors.full_messages, status: 422
     end

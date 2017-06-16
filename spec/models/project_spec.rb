@@ -9,7 +9,6 @@ RSpec.describe Project, type: :model do
     it { should validate_presence_of(:project_name) }
     it { should validate_presence_of(:creation_date) }
     it { should validate_presence_of(:expiry_date) }
-    it { should validate_presence_of(:enabled) }
     it { should validate_presence_of(:project_cost) }
     it { should validate_numericality_of(:project_cost) }
     it { should validate_presence_of(:project_url) }
@@ -50,7 +49,7 @@ RSpec.describe Project, type: :model do
       end
     end
   end
-  
+
   describe "associations" do
     it { should have_many(:countries).through(:target_countries) }
     it { should have_many(:keys).through(:target_keys) }
