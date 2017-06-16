@@ -53,7 +53,7 @@ class Project < ApplicationRecord
         eligible = eligible.where("countries.name = ?", params[:country].upcase)
       end
       if params[:number]
-        eligible = eligible.where("keys.number = ?", params[:number].to_i)
+        eligible = eligible.where("keys.number >= ?", params[:number].to_i)
       end
       if params[:keyword]
         eligible = eligible.where("keys.keyword = ?", params[:keyword].downcase)

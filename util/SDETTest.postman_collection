@@ -1,0 +1,529 @@
+{
+	"variables": [],
+	"info": {
+		"name": "SDETTest",
+		"_postman_id": "ca062304-dd1d-486c-82e3-db8383502124",
+		"description": "Postman scripts to test Coding Challenge API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Disabled project returns when ID is passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns Project when id included in request and project is NOT enabled\"] = jsonData.projectName === \"test project number 3\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?projectid=3",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "projectid",
+							"value": "3",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns project when id is given in params but project is NOT enabled"
+			},
+			"response": []
+		},
+		{
+			"name": "Expired project returns when ID is passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns Project when id included in request and project IS expired\"] = jsonData.projectName === \"test project number 4\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?projectid=4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "projectid",
+							"value": "4",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns correct project when id is given in params and project IS expired"
+			},
+			"response": []
+		},
+		{
+			"name": "Highest valid project returns when no params are passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns highest valid costing project when no params are given\"] = jsonData.projectName === \"test project number 2\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:3000\\requestproject",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns highest valid costing project when no params are given"
+			},
+			"response": []
+		},
+		{
+			"name": "Saves data to databse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Successfully saves test data to database\"] = jsonData.message === \"campaign is successfully created\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:3000/createproject",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"id\": 18,  \n    \"projectName\": \"test project number 18\",  \n    \"creationDate\": \"06112017 00:00:00\",  \n    \"expiryDate\": \"08202017 00:00:00\",  \n    \"enabled\": \"False\",   \n    \"targetCountries\": [\"USA\", \"CANADA\", \"MEXICO\", \"BRAZIL\"],  \n    \"projectCost\": 5.5,  \n    \"projectUrl\": \"http://www.testproject.com\",  \n    \"targetKeys\": [{  \n            \"number\": 25,  \n            \"keyword\": \"movie\"  \n        },  \n        {  \n            \"number\": 30,  \n            \"keyword\": \"sports\"  \n        }]  \n} "
+				},
+				"description": "Saves data to databse (Will only work once since second request will send duplicate data)"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns highest costing project when only country is given",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns highest costing project when only country is given\"] = jsonData.projectName === \"test project number 6\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?country=brazil",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "country",
+							"value": "brazil",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns highest costing project when only country is given"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns highest costing project when only number is given",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns highest costing project when only number(as minimum) is given\"] = jsonData.projectName === \"test project number 2\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?number=17",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "number",
+							"value": "17",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns highest costing project when only number is given"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns highest costing project when only keyword is given",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns highest costing project when only keyword is given\"] = jsonData.projectName === \"test project number 7\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?keyword=science",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "keyword",
+							"value": "science",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns highest costing project when only keyword is given"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns nothing when keyword/number pairing is incorrect",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns nothing when keyword/number pairing is incorrect\"] = jsonData.message === \"no project found\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?keyword=science?number=30",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "keyword",
+							"value": "science?number=30",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns nothing when keyword/number pairing is incorrect"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns nothing when country is not in database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns nothing when country is not in database\"] = jsonData.message === \"no project found\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?country=scandinavia",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "country",
+							"value": "scandinavia",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns nothing when country is not in database"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns nothing when key:number is not in database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns nothing when key:number is not in database\"] = jsonData.message === \"no project found\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?number=1000",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "number",
+							"value": "1000",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns nothing when key:number is not in database"
+			},
+			"response": []
+		},
+		{
+			"name": "Returns nothing when key:keyword is not in database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");",
+							" ",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;",
+							" ",
+							"if (contentTypeHeaderExists) {",
+							"    tests[\"Content-Type is application/json\"] = ",
+							"      responseHeaders[\"Content-Type\"].has(\"application/json\");",
+							"}",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Returns nothing when key:keyword is not in database\"] = jsonData.message === \"no project found\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000\\requestproject?keyword=hats",
+					"host": [
+						"localhost"
+					],
+					"port": "3000\\requestproject",
+					"query": [
+						{
+							"key": "keyword",
+							"value": "hats",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns nothing when key:keyword is not in database"
+			},
+			"response": []
+		}
+	]
+}
