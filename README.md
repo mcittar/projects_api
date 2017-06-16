@@ -7,9 +7,7 @@ Ruby, Rails, and PostgreSQL are required for this project
 1. Clone the repo
 2. Run `bundle install` to install ruby gems
 3. Run the following commands in order to set up and seed the database:
-  * `rake db:create`
-  * `rake db:migrate`
-  * `rake db:seed`
+  * `rake db:setup`
 4. Start the built in rails server: `rails server`
 
 The app should now be up and running. If at any point you need to reset the database you can run `rake db:reset` and restart the server.
