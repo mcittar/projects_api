@@ -5,7 +5,7 @@ This is a REST based web service designed to handle GET/POST requests using an a
 ## Setup & Dependencies
 Ruby, Rails, and PostgreSQL are required for this project
 1. Clone the repo
-2. Run `bundle exec install` to install ruby gems
+2. Run `bundle install` to install ruby gems
 3. Run the following commands in order to set up and seed the database:
   * `rake db:create`
   * `rake db:migrate`
@@ -60,6 +60,12 @@ Finally I have to correctly set up the many-to-many relationships between projec
 All of this logic can be found on the ProjectsController at `app/controllers/projects_controller.rb`
 
 ## Search
+
+My searching logic can be found on the Project model at `app/models/project.rb`.
+
+The logic of my search is fairly straightforward. I begin by checking if projectid is included in the incoming params. If it is, I override all search requirements and simply return that project if it exists.
+
+After that check, I create a joins table of all my data filtering out expired and disabled projects.
 
 ## Potential Improvements
 
