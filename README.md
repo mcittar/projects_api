@@ -55,4 +55,16 @@ For example, I create a boolean validation for the enabled key as a project shou
 
 I also have to convert the incoming creationdDate and expiryDate string into a Ruby formatted date to comply with my model and database level date validation. To do this, I use Ruby's Date#strptime method which uses a regex to convert an incorrectly formatted date string into a format accepted by Ruby's Date object.
 
-Finally I have to correctly set up the many-to-many relationships between projects and their countries and keys. For countries, I simply iterate through an incoming project's countries and attempt to save them to the database. Duplicate countries won't save thanks to my validations. After I save them, I add the country to my project's association and the join table relationship will get created and tested when the project saves. The keys work the same way except I added additional logic to check to make sure invalid key pairs wouldn't allow a project to be save. For instance, if the database already has the key { 24 "hats" } and I try to save the key { 24 "shoes" }, The project will get a validation error and not save correctly
+Finally I have to correctly set up the many-to-many relationships between projects and their countries and keys. For countries, I simply iterate through an incoming project's countries and attempt to save them to the database. Duplicate countries won't save thanks to my validations. After I save them, I add the country to my project's association and the join table relationship will get created and tested when the project saves. The keys work the same way except I added additional logic to check to make sure invalid key pairs wouldn't allow a project to be save. For instance, if the database already has the key { 24 "hats" } and I try to save the key { 24 "shoes" }, The project will get a validation error and not save correctly.
+
+All of this logic can be found on the ProjectsController at `app/controllers/projects_controller.rb`
+
+## Search
+
+## Potential Improvements
+
+When parsing incoming data, I believe I make unnecessary queries to the database when I try to save countries or keys that already exist. I can avoid these extra calls to my database by using a cache that remembers what countries and keys have already been saved and then not try to save those again.
+
+I trusted my validations to handle the testing saving projects of different formats but I think I would benefit from writing more Postman tests that create different kinds of both valid/invalid projects.
+
+I would also like to go back and write more descriptive error messages for my model level validations. Currently, if you try to save a duplicate key the error will only be "Key is invalid" rather than "Key 24 is invalid". I had some difficulty interpolating the error value into the message and was forced to move on.
