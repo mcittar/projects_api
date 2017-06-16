@@ -6,7 +6,7 @@ This is a REST based web service designed to handle GET/POST requests using an a
 Ruby, Rails, and PostgreSQL are required for this project
 1. Clone the repo
 2. Run `bundle install` to install ruby gems
-3. Run the following commands in order to set up and seed the database:
+3. Run the following command in order to set up and seed the database:
   * `rake db:setup`
 4. Start the built in rails server: `rails server`
 
@@ -21,6 +21,9 @@ Rspec is used to unit test the models and controllers.
 To run the Rspec tests use: `bundle exec rspec`
 
 Postman tests are a little more involved. The `util` folder of this projects contains Postman scripts titled 'SDETTTest.postman_collection'. This collection can be imported directly into Postman using its import tool. After importing, open the collection and select run to execute the HTTP requests.
+
+Since I have control over my seed data I knew what the expected output would be for any kind of query in my HTTP request. Therefore, I hardcoded expected outcomes in my Postman tests.
+
 
 ### Notes on Testing
 
